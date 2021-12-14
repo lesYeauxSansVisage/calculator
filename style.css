@@ -2,6 +2,8 @@
 
 * {
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 body {
@@ -16,34 +18,41 @@ body {
 }
 
 .container {
+  width: 400px;
   height: 500px;
-  width: 500px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 5px;
   background-color: #999;
-  padding: 20px 0;
-  font-size: 2rem;
+  padding: 20px 10px;
 }
 
 .display {
-  width: 90%;
-  height: 20%;
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   background-color: #eee;
+  border: 3px solid black;
+  border-radius: 3px;
+  font-size: 2.5rem;
 }
 
-.buttons-container {
-  display: grid;
-  width: 90%;
-  height: 80%;
-  grid-template-columns: repeat(3, auto);
-  grid-template-rows: repeat(3, auto);
-}
+
 
 button {
   font-family: inherit;
-  font-size: 3rem;
+  font-size: 2rem;
   background-color: aquamarine;
+  border: none;
+  border-radius: 5px;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:active {
+  transform: scale(1.1);
 }
