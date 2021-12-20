@@ -7,6 +7,7 @@
 const operands = document.querySelectorAll(".operand");
 const operators = document.querySelectorAll(".operator");
 const evaluateBtn = document.getElementById("evaluate");
+const resetBtn = document.getElementById("clear");
 const display = document.getElementById("display");
 
 let firstNumber = "";
@@ -30,6 +31,16 @@ operators.forEach((signal) => {
   signal.addEventListener("click", () => {
     if (!operator && firstNumber) {
       operator = signal.value;
+    } else if (firstNumber && secondNumber && operator) {
+      result = evaluateResult(
+        operator,
+        Number(firstNumber),
+        Number(secondNumber)
+      );
+      firstNumber = String(result);
+      secondNumber = "";
+      operator = signal.value;
+      display.textContent = result;
     }
   });
 });
@@ -41,19 +52,25 @@ evaluateBtn.addEventListener("click", () => {
       Number(firstNumber),
       Number(secondNumber)
     );
-    firstNumber = result;
+    firstNumber = String(result);
     secondNumber = "";
     operator = "";
     display.textContent = result;
   }
 });
 
+resetBtn.addEventListener("click", resetCalculator);
+
 function sum(a, b) {
   return a + b;
 }
 
 function divide(a, b) {
-  return a / b;
+  if (b !== 0) {
+    return a / b;
+  }
+  resetCalculator;
+  return "";
 }
 
 function multiply(a, b) {
@@ -81,4 +98,12 @@ function evaluateResult(signal, a, b) {
     default:
       break;
   }
+}
+
+function resetCalculator() {
+  firstNumber = "";
+  secondNumber = "";
+  operator = "";
+  result = 0;
+  display.innerText = "";
 }

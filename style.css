@@ -28,6 +28,8 @@ body {
   padding: 20px 10px;
 }
 
+
+
 .display {
   grid-column: 1 / -1;
   display: flex;
