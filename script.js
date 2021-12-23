@@ -9,20 +9,27 @@ const operators = document.querySelectorAll(".operator");
 const evaluateBtn = document.getElementById("evaluate");
 const resetBtn = document.getElementById("clear");
 const display = document.getElementById("display");
+const resultEl = document.getElementById("result");
+const operationTextEl = document.getElementById("operation-text");
 
 let firstNumber = "";
 let secondNumber = "";
 let operator = "";
 let result = 0;
+let operationText = "";
 
 operands.forEach((operand) => {
   operand.addEventListener("click", () => {
     if (operator) {
       secondNumber += operand.value;
-      display.textContent = secondNumber;
-    } else {
+      resultEl.textContent = secondNumber;
+      operationText = `${firstNumber} ${operator} ${secondNumber} `;
+      changeOperationText(operationText);
+    } else if (!operator && result == 0) {
       firstNumber += operand.value;
-      display.textContent = firstNumber;
+      operationText += operand.value;
+      changeOperationText(operationText);
+      resultEl.textContent = firstNumber;
     }
   });
 });
@@ -31,31 +38,34 @@ operators.forEach((signal) => {
   signal.addEventListener("click", () => {
     if (!operator && firstNumber) {
       operator = signal.value;
-    } else if (firstNumber && secondNumber && operator) {
-      result = evaluateResult(
-        operator,
-        Number(firstNumber),
-        Number(secondNumber)
-      );
+      operationText = `${firstNumber} ${operator} `;
+      changeOperationText(operationText);
+    } else if (firstNumber && operator) {
+      result = evaluateResult(operator, firstNumber, secondNumber);
       firstNumber = String(result);
       secondNumber = "";
       operator = signal.value;
-      display.textContent = result;
+      resultEl.innerText = result;
+      operationText = `${result} ${operator}`;
+      changeOperationText(operationText);
     }
   });
 });
 
 evaluateBtn.addEventListener("click", () => {
   if (firstNumber && secondNumber && operator) {
-    result = evaluateResult(
-      operator,
-      Number(firstNumber),
-      Number(secondNumber)
-    );
+    result = evaluateResult(operator, firstNumber, secondNumber);
     firstNumber = String(result);
     secondNumber = "";
     operator = "";
-    display.textContent = result;
+    if (result) {
+      operationText += " =";
+      changeOperationText(operationText);
+      resultEl.innerText = result;
+    }
+  } else if (firstNumber) {
+    operationText = `${firstNumber} `;
+    changeOperationText(operationText);
   }
 });
 
@@ -69,7 +79,8 @@ function divide(a, b) {
   if (b !== 0) {
     return a / b;
   }
-  resetCalculator;
+  resetCalculator();
+  result.innerText = "JUST DON'T";
   return "";
 }
 
@@ -82,6 +93,8 @@ function subtract(a, b) {
 }
 
 function evaluateResult(signal, a, b) {
+  a = Number(a);
+  b = Number(b);
   switch (signal) {
     case "+":
       return sum(a, b);
@@ -105,5 +118,11 @@ function resetCalculator() {
   secondNumber = "";
   operator = "";
   result = 0;
-  display.innerText = "";
+  operationText = "";
+  operationTextEl.innerText = "";
+  resultEl.innerText = "";
+}
+
+function changeOperationText(text) {
+  operationTextEl.innerText = text;
 }
