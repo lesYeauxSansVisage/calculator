@@ -20,52 +20,66 @@ let operationText = "";
 
 operands.forEach((operand) => {
   operand.addEventListener("click", () => {
-    if (operator) {
-      secondNumber += operand.value;
-      resultEl.textContent = secondNumber;
-      operationText = `${firstNumber} ${operator} ${secondNumber} `;
-      changeOperationText(operationText);
-    } else if (!operator && result == 0) {
+    if (!result && !operator && !secondNumber) {
+      console.log("FirstNumber Actualized");
       firstNumber += operand.value;
-      operationText += operand.value;
+      operationText = firstNumber;
       changeOperationText(operationText);
-      resultEl.textContent = firstNumber;
+      resultEl.innerText = firstNumber;
+    } else if (firstNumber && operator) {
+      secondNumber += operand.value;
+      operationText = `${firstNumber} ${operator} ${secondNumber}`;
+      changeOperationText(operationText);
+      resultEl.innerText = secondNumber;
+      console.log("Nice, we just need to click the '=' to make the operation");
     }
   });
 });
 
 operators.forEach((signal) => {
   signal.addEventListener("click", () => {
-    if (!operator && firstNumber) {
+    if (firstNumber && !operator && !secondNumber) {
       operator = signal.value;
-      operationText = `${firstNumber} ${operator} `;
+      operationText = `${firstNumber} ${operator}`;
       changeOperationText(operationText);
-    } else if (firstNumber && operator) {
+      console.log(
+        "Inserted the signal, needing just the second number to make the operation!"
+      );
+    } else if (firstNumber && secondNumber) {
+      console.log(
+        "Two numbers and you clicked another signal, we're going to evalute!"
+      );
+      operationText = `${firstNumber} ${operator} ${secondNumber} =`;
+      changeOperationText(operationText);
       result = evaluateResult(operator, firstNumber, secondNumber);
+      resultEl.innerText = result;
       firstNumber = String(result);
       secondNumber = "";
       operator = signal.value;
-      resultEl.innerText = result;
-      operationText = `${result} ${operator}`;
-      changeOperationText(operationText);
     }
   });
 });
 
 evaluateBtn.addEventListener("click", () => {
   if (firstNumber && secondNumber && operator) {
+    console.log("Nice, now we evakuate the result");
+    operationText += " =";
+    changeOperationText(operationText);
     result = evaluateResult(operator, firstNumber, secondNumber);
+    if (!result && result !== 0) {
+      console.log("You got an error");
+      operationTextEl.innerText = "";
+      resultEl.innerText = "NOPE!";
+      setTimeout(() => {
+        resetCalculator();
+      }, 2000);
+      return;
+    }
+    resultEl.innerText = result;
     firstNumber = String(result);
+    result = 0;
     secondNumber = "";
     operator = "";
-    if (result) {
-      operationText += " =";
-      changeOperationText(operationText);
-      resultEl.innerText = result;
-    }
-  } else if (firstNumber) {
-    operationText = `${firstNumber} `;
-    changeOperationText(operationText);
   }
 });
 
@@ -76,12 +90,10 @@ function sum(a, b) {
 }
 
 function divide(a, b) {
-  if (b !== 0) {
+  if (b) {
     return a / b;
   }
-  resetCalculator();
-  result.innerText = "JUST DON'T";
-  return "";
+  resultEl.innerText = "You cant do that!";
 }
 
 function multiply(a, b) {

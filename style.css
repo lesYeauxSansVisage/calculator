@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Lato&display=swap");
 
 :root {
-  --main-color: #CA3E47;
+  --main-color: #ca3e47;
   --secondary-color: #525252;
   --display-color: #313131;
   --font-color: #e4e5e5;
@@ -27,12 +27,14 @@ body {
 }
 
 .container {
-  max-width: 100vw;
+  max-width: 400px;
+  max-height: 500px;
   background-color: var(--display-color);
   display: grid;
   grid-template-columns: repeat(4, minmax(80px, 1fr));
-  grid-template-rows: repeat(5,  minmax(80px, 1fr));
-  gap: 5px;
+  grid-template-rows: repeat(5, minmax(80px, 1fr));
+  border: var(--main-color) 2px solid;
+  gap: 10px;
   padding: 20px 10px;
 }
 
@@ -41,22 +43,24 @@ body {
   font-weight: bold;
   grid-column: 1 / -1;
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
   background-color: var(--display-color);
   border: 3px solid var(--main-color);
   border-radius: 3px;
   font-size: 2.5rem;
   padding: 10px;
+  overflow: hidden;
 }
 
 button {
   color: var(--font-color);
   font-family: inherit;
   font-size: 2rem;
-  background-color: var(--main-color);
+  background-color: var(--secondary-color);
   border: none;
-  border-radius: 5px;
+  border-radius: 50%;
   transition: transform 1s ease;
 }
 
@@ -67,4 +71,26 @@ button:focus {
 button:active,
 button:hover {
   transform: scale(1.1);
+}
+
+#operation-text {
+  font-size: 1rem;
+  color: var(--font-color);
+}
+
+#result {
+  font-size: 2rem;
+}
+
+span {
+  display: block;
+}
+
+.operator {
+  background-color: #a23239;
+}
+
+.evaluate,
+.clear-button {
+  background-color: #651f24;
 }
