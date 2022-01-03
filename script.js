@@ -1,14 +1,7 @@
-// Save the first operand, second operand and operator in a variable
-// Every time the user clicks a button, it should add to the first operand
-// After clicking an operator, the next click on the operands should go to the second operand to be evaluated
-// Finnaly, after clicking the =, the computer should take the two operand and evaluates the results
-// Now the first operand should be equal to the result
-
 const operands = document.querySelectorAll(".operand");
 const operators = document.querySelectorAll(".operator");
 const evaluateBtn = document.getElementById("evaluate");
 const resetBtn = document.getElementById("clear");
-const display = document.getElementById("display");
 const resultEl = document.getElementById("result");
 const operationTextEl = document.getElementById("operation-text");
 
@@ -18,9 +11,12 @@ let operator = "";
 let result = 0;
 let operationText = "";
 
+//This variable is a way to check if the first number was already defined, if it was, then it won't change unless the calculator is reseted
+let presssed = false;
+
 operands.forEach((operand) => {
   operand.addEventListener("click", () => {
-    if (!result && !operator && !secondNumber) {
+    if (!result && !operator && !secondNumber && !presssed) {
       console.log("FirstNumber Actualized");
       firstNumber += operand.value;
       operationText = firstNumber;
@@ -107,6 +103,7 @@ function subtract(a, b) {
 function evaluateResult(signal, a, b) {
   a = Number(a);
   b = Number(b);
+  presssed = true;
   switch (signal) {
     case "+":
       return sum(a, b);
@@ -131,8 +128,9 @@ function resetCalculator() {
   operator = "";
   result = 0;
   operationText = "";
+  presssed = false;
   operationTextEl.innerText = "";
-  resultEl.innerText = "";
+  resultEl.innerText = "0";
 }
 
 function changeOperationText(text) {
