@@ -1,7 +1,7 @@
-@import url("https://fonts.googleapis.com/css?family=Lato&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap");
 
 :root {
-  --main-color: #ca3e47;
+  --main-color: #036d70;
   --secondary-color: #525252;
   --display-color: #313131;
   --font-color: #e4e5e5;
@@ -14,10 +14,21 @@
 }
 
 body {
+  background: #000000; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #434343,
+    #000000
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #434343,
+    #000000
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
   color: var(--font-color);
-  font-family: "Lato", sans-serif;
+  font-family: "JetBrains Mono", sans-serif;
   display: flex;
-  background-color: var(--secondary-color);
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -27,21 +38,23 @@ body {
 }
 
 .container {
-  max-width: 400px;
-  max-height: 500px;
-  background-color: var(--display-color);
-  display: grid;
-  grid-template-columns: repeat(4, minmax(80px, 1fr));
-  grid-template-rows: repeat(5, minmax(80px, 1fr));
+  background-color: transparent;
   border: var(--main-color) 2px solid;
-  gap: 10px;
   padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-radius: 5px;
+  box-shadow: var(--main-color) 5px 5px 5px;
 }
 
 .display {
+  max-width: 300px;
+  overflow: hidden;
+  border-radius: 5px;
+  height: 5rem;
   color: var(--main-color);
   font-weight: bold;
-  grid-column: 1 / -1;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -49,9 +62,16 @@ body {
   background-color: var(--display-color);
   border: 3px solid var(--main-color);
   border-radius: 3px;
-  font-size: 2.5rem;
   padding: 10px;
-  overflow: hidden;
+}
+
+.buttons-container {
+  width: 300px;
+  height: 300px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 5px;
 }
 
 button {
@@ -60,8 +80,9 @@ button {
   font-size: 2rem;
   background-color: var(--secondary-color);
   border: none;
+  transition: all 1s ease;
   border-radius: 50%;
-  transition: transform 1s ease;
+  box-shadow: rgba(46, 233, 240, 0.4) 1px 1px 2px;
 }
 
 button:focus {
@@ -70,7 +91,8 @@ button:focus {
 
 button:active,
 button:hover {
-  transform: scale(1.1);
+  transform: scale(1.1) translateY(-5px);
+  background-color: var(--main-color);
 }
 
 #operation-text {
@@ -82,15 +104,11 @@ button:hover {
   font-size: 2rem;
 }
 
-span {
-  display: block;
-}
-
 .operator {
-  background-color: #a23239;
+  background-color: #09595c;
 }
 
 .evaluate,
 .clear-button {
-  background-color: #651f24;
+  background-color: #1b4446;
 }
