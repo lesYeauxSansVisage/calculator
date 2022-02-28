@@ -1,5 +1,9 @@
-const operands = document.querySelectorAll(".operand");
-const operators = document.querySelectorAll(".operator");
+import { sum, divide, multiply, subtract } from "./operations";
+
+const operands: NodeListOf<HTMLButtonElement> =
+  document.querySelectorAll(".operand");
+const operators: NodeListOf<HTMLButtonElement> =
+  document.querySelectorAll(".operator");
 const evaluateBtn = document.getElementById("evaluate");
 const resetBtn = document.getElementById("clear");
 const resultEl = document.getElementById("result");
@@ -8,7 +12,7 @@ const operationTextEl = document.getElementById("operation-text");
 let firstNumber = "";
 let secondNumber = "";
 let operator = "";
-let result = 0;
+let result: string | number = 0;
 let operationText = "";
 
 //This variable is a way to check if the first number was already defined, if it was, then it won't change unless the calculator is reseted
@@ -48,7 +52,7 @@ operators.forEach((signal) => {
       operationText = `${firstNumber} ${operator} ${secondNumber} =`;
       changeOperationText(operationText);
       result = evaluateResult(operator, firstNumber, secondNumber);
-      resultEl.innerText = result;
+      resultEl.innerText = String(result);
       firstNumber = String(result);
       secondNumber = "";
       operator = signal.value;
@@ -63,15 +67,14 @@ evaluateBtn.addEventListener("click", () => {
     changeOperationText(operationText);
     result = evaluateResult(operator, firstNumber, secondNumber);
     if (!result && result !== 0) {
-      console.log("You got an error");
       operationTextEl.innerText = "";
       resultEl.innerText = "NOPE!";
       setTimeout(() => {
         resetCalculator();
-      }, 2000);
+      }, 1000);
       return;
     }
-    resultEl.innerText = result;
+    resultEl.innerText = String(result);
     firstNumber = String(result);
     result = 0;
     secondNumber = "";
@@ -80,25 +83,6 @@ evaluateBtn.addEventListener("click", () => {
 });
 
 resetBtn.addEventListener("click", resetCalculator);
-
-function sum(a, b) {
-  return a + b;
-}
-
-function divide(a, b) {
-  if (b) {
-    return a / b;
-  }
-  resultEl.innerText = "You cant do that!";
-}
-
-function multiply(a, b) {
-  return a * b;
-}
-
-function subtract(a, b) {
-  return a - b;
-}
 
 function evaluateResult(signal, a, b) {
   a = Number(a);
